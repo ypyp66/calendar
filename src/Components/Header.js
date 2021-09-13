@@ -1,39 +1,25 @@
 import React from "react";
 import styled from "styled-components";
-import TODAY from "../Constants/Date";
+import { TODAY } from "../Constants/Date";
 
-function Header({
-  year,
-  month,
-  setMonth,
-  setYear,
-  IncreaseMonth,
-  DecreaseMonth,
-}) {
+function Header({ today, increaseMonth, decreaseMonth, goToday }) {
   const handleDecrease = () => {
     console.log("-");
-    DecreaseMonth();
+    decreaseMonth();
   };
 
   const handleIncrease = () => {
     console.log("+");
-    IncreaseMonth();
+    increaseMonth();
   };
 
-  const handleReset = () => {
-    console.log("reset month");
-    setYear(() => TODAY.YEAR);
-    setMonth(() => TODAY.MONTH);
-  };
   return (
     <Container>
-      <h3>
-        {year}.{month}
-      </h3>
+      <h3>{today.format("YYYY-MM")}</h3>
       <Content>
         <Button onClick={handleDecrease}>&lt;</Button>
         <Button onClick={handleIncrease}>&gt;</Button>
-        <Button onClick={handleReset}>이번달</Button>
+        <Button onClick={goToday}>이번달</Button>
       </Content>
     </Container>
   );
