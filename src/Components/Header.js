@@ -2,19 +2,27 @@ import React from "react";
 import styled from "styled-components";
 import TODAY from "../Constants/Date";
 
-function Header({ year, month, setMonth }) {
+function Header({
+  year,
+  month,
+  setMonth,
+  setYear,
+  IncreaseMonth,
+  DecreaseMonth,
+}) {
   const handleDecrease = () => {
     console.log("-");
-    setMonth((prevMonth) => prevMonth - 1);
+    DecreaseMonth();
   };
 
   const handleIncrease = () => {
     console.log("+");
-    setMonth((prevMonth) => prevMonth + 1);
+    IncreaseMonth();
   };
 
-  const handleResetMonth = () => {
+  const handleReset = () => {
     console.log("reset month");
+    setYear(() => TODAY.YEAR);
     setMonth(() => TODAY.MONTH);
   };
   return (
@@ -25,7 +33,7 @@ function Header({ year, month, setMonth }) {
       <Content>
         <Button onClick={handleDecrease}>&lt;</Button>
         <Button onClick={handleIncrease}>&gt;</Button>
-        <Button onClick={handleResetMonth}>이번달</Button>
+        <Button onClick={handleReset}>이번달</Button>
       </Content>
     </Container>
   );

@@ -4,10 +4,18 @@ import styled from "styled-components";
 import CalendarService from "../Utils/CalendarService";
 
 function CalendarContainer() {
-  const { year, month, setMonth } = CalendarService();
+  const { year, month, setMonth, setYear, IncreaseMonth, DecreaseMonth } =
+    CalendarService();
   return (
     <Container>
-      <Header year={year} month={month} setMonth={setMonth} />
+      <Header
+        year={year}
+        month={month}
+        IncreaseMonth={IncreaseMonth}
+        DecreaseMonth={DecreaseMonth}
+        setMonth={setMonth}
+        setYear={setYear}
+      />
     </Container>
   );
 }
