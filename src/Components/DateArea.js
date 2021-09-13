@@ -1,7 +1,12 @@
 import React from "react";
+import Week from "./Week";
 
 function DateArea() {
-  return <div></div>;
+  return (
+    <table>
+      <Week />
+    </table>
+  );
 }
 
 export default DateArea;
