@@ -1,20 +1,31 @@
 import React from "react";
 import styled from "styled-components";
+import TODAY from "../Constants/Date";
 
-const today = new Date();
-const year = today.getFullYear();
-const month = today.getMonth() + 1;
+function Header({ year, month, setMonth }) {
+  const handleDecrease = () => {
+    console.log("-");
+    setMonth((prevMonth) => prevMonth - 1);
+  };
 
-function Header() {
+  const handleIncrease = () => {
+    console.log("+");
+    setMonth((prevMonth) => prevMonth + 1);
+  };
+
+  const handleResetMonth = () => {
+    console.log("reset month");
+    setMonth(() => TODAY.MONTH);
+  };
   return (
     <Container>
       <h3>
         {year}.{month}
       </h3>
       <Content>
-        <Button>&lt;</Button>
-        <Button>&gt;</Button>
-        <Button>이번달</Button>
+        <Button onClick={handleDecrease}>&lt;</Button>
+        <Button onClick={handleIncrease}>&gt;</Button>
+        <Button onClick={handleResetMonth}>이번달</Button>
       </Content>
     </Container>
   );
@@ -22,7 +33,7 @@ function Header() {
 
 export default Header;
 
-const Container = styled.p`
+const Container = styled.main`
   display: flex;
   align-items: center;
   justify-content: space-between;

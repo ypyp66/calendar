@@ -1,11 +1,13 @@
 import React from "react";
 import Header from "../Components/Header";
 import styled from "styled-components";
+import CalendarService from "../Utils/CalendarService";
 
 function CalendarContainer() {
+  const { year, month, setMonth } = CalendarService();
   return (
     <Container>
-      <Header />
+      <Header year={year} month={month} setMonth={setMonth} />
     </Container>
   );
 }
