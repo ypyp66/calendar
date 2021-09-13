@@ -1,49 +1,41 @@
+import moment from "moment";
 import { useEffect, useState } from "react";
-import TODAY from "../Constants/Date";
+import { TODAY } from "../Constants/Date";
 
 const CalendarService = () => {
   const [year, setYear] = useState(TODAY.YEAR);
   const [month, setMonth] = useState(TODAY.MONTH);
+  const [current, setCurrent] = useState(() => moment());
+  const today = current;
 
   useEffect(() => {
     console.log("month", month);
   }, [month]);
 
-  const IncreaseYear = () => {
-    setYear((prevYear) => prevYear + 1);
+  useEffect(() => {
+    console.log("today", today);
+  }, [today]);
+
+  const goToday = () => {
+    setCurrent(() => moment());
   };
 
-  const DecreaseYear = () => {
-    setYear((prevYear) => prevYear - 1);
+  const increaseMonth = () => {
+    setCurrent((prevCurrent) => prevCurrent.clone().add(1, "month"));
   };
 
-  const IncreaseMonth = () => {
-    setMonth((prevMonth) => {
-      const nextMonth = (prevMonth % 12) + 1;
-      if (nextMonth === 1) {
-        IncreaseYear();
-      }
-      return nextMonth;
-    });
-  };
-
-  const DecreaseMonth = () => {
-    setMonth((prevMonth) => {
-      const nextMonth = prevMonth - 1;
-      if (nextMonth <= 0) {
-        DecreaseYear();
-        return 12;
-      }
-      return nextMonth;
-    });
+  const decreaseMonth = () => {
+    setCurrent((prevCurrent) => prevCurrent.clone().subtract(1, "month"));
   };
   return {
+    today,
     year,
     month,
-    IncreaseMonth,
-    DecreaseMonth,
+    increaseMonth,
+    decreaseMonth,
     setYear,
     setMonth,
+    goToday,
   };
 };
 
