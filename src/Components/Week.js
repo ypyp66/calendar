@@ -4,15 +4,17 @@ import { DAYS } from "../Constants/Day";
 function Week() {
   return (
     <>
-      {DAYS.map((day) => (
-        <th>{day}</th>
+      {DAYS.map((day, index) => (
+        <Span holiday={index === 0} semiHoliday={index === 6} key={index}>
+          {day}
+        </Span>
       ))}
     </>
   );
 }
 
-export default Week;
+export default React.memo(Week);
 
-const Container = styled.th`
-  width: 100%;
+const Span = styled.span`
+  text-align: center;
 `;
