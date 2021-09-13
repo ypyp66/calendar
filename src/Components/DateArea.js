@@ -16,6 +16,7 @@ export default DateArea;
 
 const Container = styled.section`
   width: 100%;
-  display: grid;
-  grid-template-columns: repeat(7, 1fr);
+  height: 85%;
+
+  margin-top: 50px;
 `;
