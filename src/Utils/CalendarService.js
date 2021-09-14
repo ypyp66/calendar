@@ -1,28 +1,30 @@
 import moment from "moment";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { setDate } from "../Store/actions/dateActions";
 
 const CalendarService = () => {
-  const [current, setCurrent] = useState(() => moment());
-  const today = current;
+  const today = useSelector((state) => state.date.date);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     console.log("today", today);
   }, [today]);
 
   const goToday = () => {
-    setCurrent(() => moment());
+    dispatch(setDate(moment()));
   };
 
   const increaseMonth = () => {
-    setCurrent((prev) => prev.clone().add(1, "month"));
+    dispatch(setDate(today.clone().add(1, "month")));
+    //dispatch((prev) => prev.clone().add(1, "month"));
   };
 
   const decreaseMonth = () => {
-    setCurrent((prev) => prev.clone().subtract(1, "month"));
+    dispatch(setDate(today.clone().subtract(1, "month")));
   };
   return {
     today,
-    setCurrent,
     increaseMonth,
     decreaseMonth,
     goToday,

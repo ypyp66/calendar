@@ -1,30 +1,30 @@
 import moment from "moment";
 import React from "react";
+import { useDispatch } from "react-redux";
 import styled, { css } from "styled-components";
 import { TODAY } from "../Constants/Date";
+import { setDate } from "../Store/actions/dateActions";
 
 function DateItem({
   children,
   otherMonth,
   date,
   isToday,
-  setCurrent,
   today,
   selected,
   setSelected,
 }) {
+  const dispatch = useDispatch();
   const handleClick = () => {
     const thisDate = date.format("YYYY-MM");
     const targetDate = today.format("YYYY-MM");
-    //setCurrent((prev) => prev.clone().format("YYYY-MM"));
-    console.log(thisDate, targetDate);
-    console.log(TODAY.DATE);
 
     if (thisDate === targetDate) {
       return;
     }
+
     setSelected((prev) => !prev);
-    setCurrent(() => moment(thisDate));
+    dispatch(setDate(moment(thisDate)));
   };
   return (
     <Div isToday={isToday} otherMonth={otherMonth} onClick={handleClick}>

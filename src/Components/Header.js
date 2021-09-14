@@ -1,8 +1,12 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import styled from "styled-components";
 import { TODAY } from "../Constants/Date";
 
-function Header({ today, increaseMonth, decreaseMonth, goToday }) {
+function Header({ increaseMonth, decreaseMonth, goToday }) {
+  const today = useSelector((state) => state.date.date);
+
+  console.log("selector", today);
   const handleDecrease = () => {
     console.log("-");
     decreaseMonth();

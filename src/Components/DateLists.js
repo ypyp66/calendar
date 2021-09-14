@@ -3,9 +3,11 @@ import MakeAllDates from "../Utils/MakeAllDates";
 import DateItem from "./DateItem";
 import styled from "styled-components";
 import { TODAY } from "../Constants/Date";
+import { useSelector } from "react-redux";
 
-function DateLists({ today, setCurrent }) {
+function DateLists() {
   const [selected, setSelected] = useState(false);
+  const today = useSelector((state) => state.date.date);
   const allDates = MakeAllDates(today);
 
   return (
@@ -22,7 +24,6 @@ function DateLists({ today, setCurrent }) {
             isToday={isToday}
             otherMonth={otherMonth}
             date={date}
-            setCurrent={setCurrent}
             today={today}
             selected={selected}
             setSelected={setSelected}
