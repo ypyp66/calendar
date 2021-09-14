@@ -5,7 +5,8 @@ import CalendarService from "../Utils/CalendarService";
 import DateArea from "../Components/DateArea";
 
 function CalendarContainer() {
-  const { today, increaseMonth, decreaseMonth, goToday } = CalendarService();
+  const { today, increaseMonth, decreaseMonth, goToday, setCurrent } =
+    CalendarService();
   return (
     <Container>
       <Header
@@ -14,7 +15,7 @@ function CalendarContainer() {
         decreaseMonth={decreaseMonth}
         goToday={goToday}
       />
-      <DateArea today={today} />
+      <DateArea today={today} setCurrent={setCurrent} />
     </Container>
   );
 }

@@ -3,11 +3,11 @@ import Week from "./Week";
 import styled from "styled-components";
 import DateLists from "./DateLists";
 
-function DateArea({ today }) {
+function DateArea({ today, setCurrent }) {
   return (
     <Container>
       <Week />
-      <DateLists today={today} />
+      <DateLists today={today} setCurrent={setCurrent} />
     </Container>
   );
 }

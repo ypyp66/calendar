@@ -4,6 +4,7 @@ export const TODAY = {
   TODAY: today,
   YEAR: today.getFullYear(),
   MONTH: today.getMonth() + 1,
+  DATE: today.getDate(),
 };
 
 export const EndOfDate = {

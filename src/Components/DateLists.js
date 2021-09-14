@@ -1,21 +1,32 @@
-import React from "react";
+import React, { useState } from "react";
 import MakeAllDates from "../Utils/MakeAllDates";
 import DateItem from "./DateItem";
 import styled from "styled-components";
 import { TODAY } from "../Constants/Date";
 
-function DateLists({ today }) {
+function DateLists({ today, setCurrent }) {
+  const [selected, setSelected] = useState(false);
   const allDates = MakeAllDates(today);
 
   return (
     <Container>
       {allDates.map((date) => {
-        console.log(date, today);
-        const selected =
-          date.format("YYYY-M-DD") === today.format(`YYYY-${TODAY.MONTH}-DD`);
+        const isToday = date.isSame(
+          today.format(`${TODAY.YEAR}-${TODAY.MONTH}-${TODAY.DATE}`)
+        );
         const otherMonth = date.format("YYYY-MM") !== today.format("YYYY-MM");
+
         return (
-          <DateItem selected={selected} otherMonth={otherMonth}>
+          <DateItem
+            key={date.format("YYYYMMDD")}
+            isToday={isToday}
+            otherMonth={otherMonth}
+            date={date}
+            setCurrent={setCurrent}
+            today={today}
+            selected={selected}
+            setSelected={setSelected}
+          >
             {date.format("D")}
           </DateItem>
         );

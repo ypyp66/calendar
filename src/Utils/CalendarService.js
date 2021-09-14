@@ -14,14 +14,15 @@ const CalendarService = () => {
   };
 
   const increaseMonth = () => {
-    setCurrent(today.clone().add(1, "month"));
+    setCurrent((prev) => prev.clone().add(1, "month"));
   };
 
   const decreaseMonth = () => {
-    setCurrent(today.clone().subtract(1, "month"));
+    setCurrent((prev) => prev.clone().subtract(1, "month"));
   };
   return {
     today,
+    setCurrent,
     increaseMonth,
     decreaseMonth,
     goToday,
