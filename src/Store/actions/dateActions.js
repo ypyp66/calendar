@@ -1,5 +1,8 @@
-import { SET_DATE, SET_TODAY } from "./types";
+import { SET_DATE, SET_SELECTED_DATE } from "./types";
 
 export const setDate = (moment) => ({ type: SET_DATE, payload: moment });
 
-export const setToday = (new_date) => ({ type: SET_TODAY, payload: new_date });
+export const setSelectedDate = (moment) => ({
+  type: SET_SELECTED_DATE,
+  payload: moment,
+});

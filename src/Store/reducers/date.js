@@ -1,9 +1,9 @@
 import moment from "moment";
-import { SET_DATE, SET_TODAY } from "../actions/types";
+import { SET_DATE, SET_SELECTED_DATE } from "../actions/types";
 
 const initialState = {
   date: moment(),
-  today: new Date(),
+  selectedDate: null,
 };
 
 export default function date(state = initialState, action) {
@@ -13,10 +13,10 @@ export default function date(state = initialState, action) {
         ...state,
         date: action.payload,
       };
-    case SET_TODAY:
+    case SET_SELECTED_DATE:
       return {
         ...state,
-        today: action.payload,
+        selectedDate: action.payload,
       };
     default:
       return state;
