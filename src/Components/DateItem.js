@@ -1,35 +1,38 @@
 import moment from "moment";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-import { TODAY } from "../Constants/Date";
-import { setDate } from "../Store/actions/dateActions";
+import { setDate, setSelectedDate } from "../Store/actions/dateActions";
 
-function DateItem({
-  children,
-  otherMonth,
-  date,
-  isToday,
-  today,
-  selected,
-  setSelected,
-}) {
+function DateItem({ children, otherMonth, date, isToday, today, selected }) {
+  const selectedDate = useSelector((state) => state.date.selectedDate);
   const dispatch = useDispatch();
+
   const handleClick = () => {
     const thisDate = date.format("YYYY-MM");
     const targetDate = today.format("YYYY-MM");
+
+    if (selectedDate?.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
+      console.log("qweqe");
+      return;
+    }
+
+    dispatch(setSelectedDate(moment(date)));
 
     if (thisDate === targetDate) {
       return;
     }
 
-    setSelected((prev) => !prev);
     dispatch(setDate(moment(thisDate)));
   };
   return (
-    <Div isToday={isToday} otherMonth={otherMonth} onClick={handleClick}>
+    <Div
+      isToday={isToday}
+      otherMonth={otherMonth}
+      onClick={handleClick}
+      selected={selected}
+    >
       {children}
-      {selected}
     </Div>
   );
 }
@@ -60,6 +63,20 @@ const Div = styled.div`
         font-size: 10px;
       }
     `};
+
+  ${(props) =>
+    props.selected &&
+    css`
+      display: flex;
+      justify-self: center;
+      align-self: center;
+
+      width: 50%;
+      height: 50%;
+
+      background-color: #ff6c6c;
+      border-radius: 60px;
+    `}
 
   :hover {
     transform: scale(1.1);

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import MakeAllDates from "../Utils/MakeAllDates";
 import DateItem from "./DateItem";
 import styled from "styled-components";
@@ -6,13 +6,14 @@ import { TODAY } from "../Constants/Date";
 import { useSelector } from "react-redux";
 
 function DateLists() {
-  const [selected, setSelected] = useState(false);
+  const selectedDate = useSelector((state) => state.date.selectedDate);
   const today = useSelector((state) => state.date.date);
   const allDates = MakeAllDates(today);
 
   return (
     <Container>
       {allDates.map((date) => {
+        const key = date.format("YYYYMMDD");
         const isToday = date.isSame(
           today.format(`${TODAY.YEAR}-${TODAY.MONTH}-${TODAY.DATE}`)
         );
@@ -20,13 +21,14 @@ function DateLists() {
 
         return (
           <DateItem
-            key={date.format("YYYYMMDD")}
+            key={key}
             isToday={isToday}
             otherMonth={otherMonth}
             date={date}
             today={today}
-            selected={selected}
-            setSelected={setSelected}
+            selected={
+              date.format("YYYY-MM-DD") === selectedDate?.format("YYYY-MM-DD")
+            }
           >
             {date.format("D")}
           </DateItem>

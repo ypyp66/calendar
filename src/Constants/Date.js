@@ -7,7 +7,4 @@ export const TODAY = {
   DATE: today.getDate(),
 };
 
-export const EndOfDate = {
-  leapYear: [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-  normalYear: [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31],
-};
+export const DAYS = ["일", "월", "화", "수", "목", "금", "토"];

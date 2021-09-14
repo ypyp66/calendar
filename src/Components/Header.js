@@ -1,21 +1,17 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
-import { TODAY } from "../Constants/Date";
 
 function Header({ increaseMonth, decreaseMonth, goToday }) {
   const today = useSelector((state) => state.date.date);
 
-  console.log("selector", today);
-  const handleDecrease = () => {
-    console.log("-");
+  const handleDecrease = useCallback(() => {
     decreaseMonth();
-  };
+  }, [decreaseMonth]);
 
-  const handleIncrease = () => {
-    console.log("+");
+  const handleIncrease = useCallback(() => {
     increaseMonth();
-  };
+  }, [increaseMonth]);
 
   return (
     <Container>

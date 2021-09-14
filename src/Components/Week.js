@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { DAYS } from "../Constants/Day";
+import { DAYS } from "../Constants/Date";
 function Week() {
   return (
     <Container>
@@ -19,6 +19,7 @@ const Container = styled.article`
   width: 100%;
   display: grid;
   grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 10px;
 `;
 
 const P = styled.p`
