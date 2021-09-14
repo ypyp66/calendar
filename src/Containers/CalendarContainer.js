@@ -1,8 +1,8 @@
 import React from "react";
-import Header from "../Components/Header";
+import Header from "Components/Header";
 import styled from "styled-components";
-import CalendarService from "../Utils/CalendarService";
-import DateArea from "../Components/DateArea";
+import CalendarService from "Utils/CalendarService";
+import DateArea from "Components/DateArea";
 
 function CalendarContainer() {
   const { increaseMonth, decreaseMonth, goToday } = CalendarService();

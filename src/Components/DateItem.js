@@ -2,7 +2,7 @@ import moment from "moment";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-import { setDate, setSelectedDate } from "../Store/actions/dateActions";
+import { setDate, setSelectedDate } from "Store/actions/dateActions";
 
 function DateItem({ children, otherMonth, date, isToday, today, selected }) {
   const selectedDate = useSelector((state) => state.date.selectedDate);

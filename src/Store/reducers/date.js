@@ -1,5 +1,5 @@
 import moment from "moment";
-import { SET_DATE, SET_SELECTED_DATE } from "../actions/types";
+import { SET_DATE, SET_SELECTED_DATE } from "Store/actions/types";
 
 const initialState = {
   date: moment(),

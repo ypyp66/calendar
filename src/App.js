@@ -1,4 +1,4 @@
-import CalendarContainer from "./Containers/CalendarContainer";
+import CalendarContainer from "Containers/CalendarContainer";
 import styled from "styled-components";
 
 function App() {

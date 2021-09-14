@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { DAYS } from "../Constants/Date";
+import { DAYS } from "Constants/Date";
 function Week() {
   return (
     <Container>

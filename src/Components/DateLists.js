@@ -1,8 +1,8 @@
 import React from "react";
-import MakeAllDates from "../Utils/MakeAllDates";
+import MakeAllDates from "Utils/MakeAllDates";
 import DateItem from "./DateItem";
 import styled from "styled-components";
-import { TODAY } from "../Constants/Date";
+import { TODAY } from "Constants/Date";
 import { useSelector } from "react-redux";
 
 function DateLists() {

@@ -1,7 +1,7 @@
 import moment from "moment";
 import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setDate } from "../Store/actions/dateActions";
+import { setDate } from "Store/actions/dateActions";
 
 const CalendarService = () => {
   const today = useSelector((state) => state.date.date);
