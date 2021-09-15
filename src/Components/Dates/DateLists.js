@@ -1,12 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
-import {
-  addSelectedDate,
-  removeSelectedDate,
-  setDate,
-  setSelectedDate,
-} from "Store/actions/dateActions";
+import { setDate } from "Store/actions/dateActions";
 import MakeAllDates from "Utils/MakeAllDates";
 import { DateItem } from "Components/Dates";
 
@@ -14,12 +9,13 @@ import { TODAY } from "Constants/Date";
 
 import moment from "moment";
 import Loading from "Components/Loading";
+import MOMENT from "Constants/Moment";
 
 function DateLists() {
   const today = useSelector((state) => state.date.date);
   const [selectedDate, setSelectedDate] = useState(null);
-  const [drag, setDrag] = useState(null);
-  const [over, setOver] = useState(null);
+  const [dragStart, setDragStart] = useState(null);
+  const [dragOver, setDragOver] = useState(null);
   const [allDates, setAllDates] = useState(() => MakeAllDates(today));
   const dispatch = useDispatch();
 
@@ -29,11 +25,11 @@ function DateLists() {
 
   const handleClick = useCallback(
     (date) => {
-      const thisYearMonth = date.format("YYYY-MM");
-      const targetYearMonth = today.format("YYYY-MM");
+      const currentYearMonth = date.format(MOMENT.YEARMONTH);
+      const targetYearMonth = today.format(MOMENT.YEARMONTH);
 
-      if (thisYearMonth !== targetYearMonth) {
-        dispatch(setDate(moment(thisYearMonth)));
+      if (currentYearMonth !== targetYearMonth) {
+        dispatch(setDate(moment(currentYearMonth)));
       }
       toggleSelected(date);
       setSelectedDate(date.id);
@@ -46,18 +42,18 @@ function DateLists() {
       prev.map((item) =>
         item.id === date.id
           ? (() => {
-              const now = moment(date);
-              now.isSelected = true;
-              now.id = date.format("YYYYMMDD");
+              const currentMoment = moment(date);
+              currentMoment.isSelected = true;
+              currentMoment.id = date.format(MOMENT.FULLDATE);
 
-              return now;
+              return currentMoment;
             })()
           : (() => {
-              const now = moment(item);
-              now.isSelected = false;
-              now.id = item.format("YYYYMMDD");
+              const currentMoment = moment(item);
+              currentMoment.isSelected = false;
+              currentMoment.id = item.format(MOMENT.FULLDATE);
 
-              return now;
+              return currentMoment;
             })()
       )
     );
@@ -66,57 +62,57 @@ function DateLists() {
   const handleDragStart = (date) => {
     setAllDates((prev) =>
       prev.map((item) => {
-        const now = moment(item);
-        now.isSelected = false;
-        now.id = item.format("YYYYMMDD");
+        const currentMoment = moment(item);
+        currentMoment.isSelected = false;
+        currentMoment.id = item.format(MOMENT.FULLDATE);
 
-        return now;
+        return currentMoment;
       })
     );
-    setDrag(date.id);
+    setDragStart(date.id);
   };
 
   const handleDragOver = useCallback(
     (date) => {
-      if (over === date.id) return;
+      if (dragOver === date.id) return;
+      //over이벤트 지속 방지
       else {
-        setOver(date.id);
+        setDragOver(date.id);
         setAllDates((prev) =>
           prev.map((item) =>
             item.id === date.id
               ? (() => {
                   const now = moment(date);
                   now.isSelected = !date.isSelected;
-                  now.id = date.format("YYYYMMDD");
+                  now.id = date.format(MOMENT.FULLDATE);
 
                   return now;
                 })()
               : item
           )
         );
-        addSelectedDate();
       }
     },
-    [over]
+    [dragOver]
   );
 
   const handleDragEnd = (date) => {
-    const diff = moment(over).diff(moment(drag), "days");
+    const diff = moment(dragOver).diff(moment(dragStart), "days");
 
     console.log(date, moment());
 
-    //차이만큼 반복해서 isSelected를 true로 바꿔줘야함.
+    //end와 start의 차이만큼 반복해서 isSelected를 true로 바꿔줘야함.
     for (let i = 0; i <= diff; i++) {
-      const current = moment(date).clone().add(i, "days");
-      const id = current.format("YYYYMMDD");
+      const currentMoment = moment(date).clone().add(i, "days");
+      const id = currentMoment.format(MOMENT.FULLDATE);
 
       setAllDates((prev) =>
         prev.map((item) =>
           item.id === id
             ? (() => {
-                const now = moment(current);
-                now.isSelected = !current.isSelected;
-                now.id = current.format("YYYYMMDD");
+                const now = moment(currentMoment);
+                now.isSelected = !currentMoment.isSelected;
+                now.id = currentMoment.format(MOMENT.FULLDATE);
 
                 return now;
               })()
@@ -131,14 +127,14 @@ function DateLists() {
       <Container>
         {allDates &&
           allDates.map((date) => {
-            const id = date.format("YYYYMMDD");
+            const id = date.format(MOMENT.FULLDATE);
             date.id = id;
 
             const isToday = date.isSame(
               today.format(`${TODAY.YEAR}-${TODAY.MONTH}-${TODAY.DATE}`)
             );
             const isOtherMonth =
-              date.format("YYYY-MM") !== today.format("YYYY-MM");
+              date.format(MOMENT.YEARMONTH) !== today.format(MOMENT.YEARMONTH);
 
             const isHoliday = date.weekday();
 

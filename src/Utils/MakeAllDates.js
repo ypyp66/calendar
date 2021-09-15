@@ -1,4 +1,4 @@
-const MakeAllDates = (today) => {
+const MakeAllDates = (today, selectedDate) => {
   //moment는 시작 주와 끝 주를 구해서 date들을 print한다.
   const result = []; //week를 담을 배열
   const startWeek = today.clone().startOf("month").week();
@@ -8,12 +8,14 @@ const MakeAllDates = (today) => {
 
   for (let i = startWeek; i <= endWeek; i++) {
     for (let j = 0; j < 7; j++) {
-      const targetDate = today
+      const targetDate = today //1일이 포함된 주의 시작일을 기준으로 하루씩 더해나간다.
         .clone()
         .startOf("year")
         .week(i)
         .startOf("week")
         .add(j, "day");
+
+      targetDate.isSelected = targetDate.format("YYYYMMDD") === selectedDate;
       result.push(targetDate);
     }
   }
