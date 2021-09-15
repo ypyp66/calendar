@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import MakeAllDates from "Utils/MakeAllDates";
 import DateItem from "./DateItem";
 import styled from "styled-components";
@@ -66,11 +66,11 @@ function DateLists() {
       </Container>
     );
   } else {
-    // return (
-    //   <Animation>
-    //     <Loading />
-    //   </Animation>
-    // );
+    return (
+      <Animation>
+        <Loading />
+      </Animation>
+    );
   }
 }
 
@@ -83,9 +83,9 @@ const Container = styled.article`
   grid-template-columns: repeat(7, 1fr);
 `;
 
-// const Animation = styled.article`
-//   height: 80%;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// `;
+const Animation = styled.article`
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+`;
