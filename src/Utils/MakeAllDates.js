@@ -6,8 +6,6 @@ const MakeAllDates = (today) => {
   //항상 6개 week를 보여줄 예정이므로 endWeek 는 startWeek + 5
   const endWeek = today.clone().startOf("month").week() + 5;
 
-  console.log(startWeek, endWeek, today.clone().endOf("month").week());
-
   for (let i = startWeek; i <= endWeek; i++) {
     for (let j = 0; j < 7; j++) {
       const targetDate = today

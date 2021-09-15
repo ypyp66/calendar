@@ -1,43 +1,20 @@
-import moment from "moment";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
 import styled, { css } from "styled-components";
-import { setDate, setSelectedDate } from "Store/actions/dateActions";
 
-function DateItem({ children, otherMonth, date, isToday, today, selected }) {
-  const selectedDate = useSelector((state) => state.date.selectedDate);
-  const dispatch = useDispatch();
-
-  const handleClick = () => {
-    const thisDate = date.format("YYYY-MM");
-    const targetDate = today.format("YYYY-MM");
-
-    if (selectedDate?.format("YYYY-MM-DD") === date.format("YYYY-MM-DD")) {
-      console.log("qweqe");
-      return;
-    }
-
-    dispatch(setSelectedDate(moment(date)));
-
-    if (thisDate === targetDate) {
-      return;
-    }
-
-    dispatch(setDate(moment(thisDate)));
-  };
+function DateItem({ children, otherMonth, isToday, isSelected, handleClick }) {
   return (
     <Div
       isToday={isToday}
       otherMonth={otherMonth}
       onClick={handleClick}
-      selected={selected}
+      isSelected={isSelected}
     >
       {children}
     </Div>
   );
 }
 
-export default DateItem;
+export default React.memo(DateItem);
 
 const Div = styled.div`
   height: 100%;
@@ -65,7 +42,7 @@ const Div = styled.div`
     `};
 
   ${(props) =>
-    props.selected &&
+    props.isSelected &&
     css`
       display: flex;
       justify-self: center;

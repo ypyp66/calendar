@@ -8,7 +8,7 @@ const CalendarService = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    console.log("today", today);
+    console.log("today", today, today.format());
   }, [today]);
 
   const goToday = useCallback(() => {

@@ -13,13 +13,17 @@ function Header({ increaseMonth, decreaseMonth, goToday }) {
     increaseMonth();
   }, [increaseMonth]);
 
+  const resetDate = useCallback(() => {
+    goToday();
+  }, [goToday]);
+
   return (
     <Container>
-      <h3>{today.format("YYYY-MM")}</h3>
+      <h3>{today.clone().format("YYYY-MM")}</h3>
       <Content>
         <Button onClick={handleDecrease}>&lt;</Button>
         <Button onClick={handleIncrease}>&gt;</Button>
-        <Button onClick={goToday}>이번달</Button>
+        <Button onClick={resetDate}>이번달</Button>
       </Content>
     </Container>
   );
