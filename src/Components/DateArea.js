@@ -1,7 +1,7 @@
 import React from "react";
 import Week from "./Week";
 import styled from "styled-components";
-import DateLists from "./DateLists";
+import { DateLists } from "Components/Dates";
 
 function DateArea() {
   return (

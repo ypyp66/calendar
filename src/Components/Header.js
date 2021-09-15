@@ -1,6 +1,7 @@
 import React, { useCallback } from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
+import Button from "Components/CalendarButton";
 
 function Header({ increaseMonth, decreaseMonth, goToday }) {
   const today = useSelector((state) => state.date.date);
@@ -21,9 +22,13 @@ function Header({ increaseMonth, decreaseMonth, goToday }) {
     <Container>
       <h3>{today.clone().format("YYYY-MM")}</h3>
       <Content>
-        <Button onClick={handleDecrease}>&lt;</Button>
-        <Button onClick={handleIncrease}>&gt;</Button>
-        <Button onClick={resetDate}>이번달</Button>
+        <Button handleClick={handleDecrease}>
+          <i className="fas fa-chevron-left"></i>
+        </Button>
+        <Button handleClick={handleIncrease}>
+          <i className="fas fa-chevron-right"></i>
+        </Button>
+        <Button handleClick={resetDate}>이번달</Button>
       </Content>
     </Container>
   );
@@ -37,13 +42,9 @@ const Container = styled.main`
   justify-content: space-between;
 `;
 
-const Content = styled.span``;
-
-const Button = styled.button`
-  outline: none;
-  border: none;
-
-  & + & {
-    margin-left: 10px;
-  }
+const Content = styled.section`
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
