@@ -1,8 +1,9 @@
 import moment from "moment";
-import { SET_DATE } from "Store/actions/types";
+import { SET_DATE, SET_SELECTED_DATES } from "Store/actions/types";
 
 const initialState = {
   date: moment(),
+  selectedDates: null,
 };
 
 export default function date(state = initialState, action) {
@@ -11,6 +12,11 @@ export default function date(state = initialState, action) {
       return {
         ...state,
         date: action.payload,
+      };
+    case SET_SELECTED_DATES:
+      return {
+        ...state,
+        selectedDates: action.payload,
       };
     default:
       return state;
