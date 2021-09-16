@@ -1,8 +1,5 @@
-import React, { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
-import { setDate } from "Store/actions/dateActions";
-import MakeAllDates from "Utils/MakeAllDates";
 import { DateItem } from "Components/Dates";
 
 import { TODAY } from "Constants/Date";
@@ -10,67 +7,32 @@ import { TODAY } from "Constants/Date";
 import moment from "moment";
 import Loading from "Components/Loading";
 import MOMENT from "Constants/Moment";
+import DateService from "Utils/DateService";
 
 function DateLists() {
-  const today = useSelector((state) => state.date.date);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const { today, allDates, setAllDates, resetAllDates, clickDate } =
+    DateService();
   const [dragStart, setDragStart] = useState(null);
   const [dragOver, setDragOver] = useState(null);
-  const [allDates, setAllDates] = useState(() => MakeAllDates(today));
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    setAllDates(MakeAllDates(today, selectedDate));
-  }, [today, selectedDate]);
 
   const handleClick = useCallback(
     (date) => {
-      const currentYearMonth = date.format(MOMENT.YEARMONTH);
-      const targetYearMonth = today.format(MOMENT.YEARMONTH);
-
-      if (currentYearMonth !== targetYearMonth) {
-        dispatch(setDate(moment(currentYearMonth)));
-      }
-      toggleSelected(date);
-      setSelectedDate(date.id);
+      clickDate(date);
     },
-    [dispatch, today]
+    [clickDate]
   );
+  const handleReset = useCallback(() => {
+    console.log("reset");
+    resetAllDates();
+  }, [resetAllDates]);
 
-  const toggleSelected = (date) => {
-    setAllDates((prev) =>
-      prev.map((item) =>
-        item.id === date.id
-          ? (() => {
-              const currentMoment = moment(date);
-              currentMoment.isSelected = true;
-              currentMoment.id = date.format(MOMENT.FULLDATE);
-
-              return currentMoment;
-            })()
-          : (() => {
-              const currentMoment = moment(item);
-              currentMoment.isSelected = false;
-              currentMoment.id = item.format(MOMENT.FULLDATE);
-
-              return currentMoment;
-            })()
-      )
-    );
-  };
-
-  const handleDragStart = (date) => {
-    setAllDates((prev) =>
-      prev.map((item) => {
-        const currentMoment = moment(item);
-        currentMoment.isSelected = false;
-        currentMoment.id = item.format(MOMENT.FULLDATE);
-
-        return currentMoment;
-      })
-    );
-    setDragStart(date.id);
-  };
+  const handleDragStart = useCallback(
+    (date) => {
+      handleReset();
+      setDragStart(date.id);
+    },
+    [handleReset]
+  );
 
   const handleDragOver = useCallback(
     (date) => {
@@ -93,7 +55,7 @@ function DateLists() {
         );
       }
     },
-    [dragOver]
+    [dragOver, setAllDates]
   );
 
   const handleDragEnd = (date) => {

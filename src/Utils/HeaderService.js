@@ -3,7 +3,7 @@ import { useCallback, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setDate } from "Store/actions/dateActions";
 
-const CalendarService = () => {
+const HeaderService = () => {
   const today = useSelector((state) => state.date.date);
   const dispatch = useDispatch();
 
@@ -30,4 +30,4 @@ const CalendarService = () => {
   };
 };
 
-export default CalendarService;
+export default HeaderService;
