@@ -71,7 +71,6 @@ const DateService = () => {
   );
 
   const loadAllDates = useCallback(() => {
-    console.log("loadAllDates");
     setAllDates(MakeAllDates(today, selectedDate));
   }, [today]);
 

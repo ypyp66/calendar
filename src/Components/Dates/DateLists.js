@@ -21,6 +21,7 @@ function DateLists() {
     },
     [clickDate]
   );
+
   const handleReset = useCallback(() => {
     console.log("reset");
     resetAllDates();
@@ -105,7 +106,6 @@ function DateLists() {
                 key={id}
                 isToday={isToday}
                 isOtherMonth={isOtherMonth}
-                //isSelected={selectedDate.includes(date.format("YYYY-MM-DD"))}
                 isSelected={date.isSelected}
                 isHoliday={isHoliday === 0}
                 handleClick={() => handleClick(date)}
