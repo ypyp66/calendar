@@ -23,7 +23,6 @@ function DateLists() {
   );
 
   const handleReset = useCallback(() => {
-    console.log("reset");
     resetAllDates();
   }, [resetAllDates]);
 
@@ -61,8 +60,6 @@ function DateLists() {
 
   const handleDragEnd = (date) => {
     const diff = moment(dragOver).diff(moment(dragStart), "days");
-
-    console.log(date, moment());
 
     //end와 start의 차이만큼 반복해서 isSelected를 true로 바꿔줘야함.
     for (let i = 0; i <= diff; i++) {
