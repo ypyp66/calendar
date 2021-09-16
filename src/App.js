@@ -1,3 +1,4 @@
+import TodoArea from "Components/TodoArea";
 import CalendarContainer from "Containers/CalendarContainer";
 import styled from "styled-components";
 
@@ -5,6 +6,7 @@ function App() {
   return (
     <Container>
       <CalendarContainer />
+      <TodoArea />
     </Container>
   );
 }
@@ -16,6 +18,7 @@ const Container = styled.div`
   height: 100vh;
 
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
 

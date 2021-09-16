@@ -4,20 +4,13 @@ import moment from "moment";
 import MOMENT from "Constants/Moment";
 
 import MakeAllDates from "./MakeAllDates";
-import { setDate } from "Store/actions/dateActions";
+import { setDate, setSelectedDates } from "Store/actions/dateActions";
 
 const DateService = () => {
   const today = useSelector((state) => state.date.date);
+  const selectedDates = useSelector((state) => state.date.selectedDates);
   const [allDates, setAllDates] = useState(() => MakeAllDates(today));
-  const [selectedDate, setSelectedDate] = useState(null);
   const dispatch = useDispatch();
-
-  const changeMonth = useCallback(
-    (currentMoment) => {
-      dispatch(setDate(moment(currentMoment)));
-    },
-    [dispatch]
-  );
 
   const resetAllDates = useCallback(() => {
     setAllDates((prev) =>
@@ -31,13 +24,13 @@ const DateService = () => {
     );
   }, []);
 
-  const toggleSelected = useCallback((date) => {
+  const toggleDate = useCallback((date) => {
     setAllDates((prev) =>
       prev.map((item) =>
         item.id === date.id
           ? (() => {
               const currentMoment = moment(date);
-              currentMoment.isSelected = !item.isSelected;
+              currentMoment.isSelected = true;
               currentMoment.id = date.format(MOMENT.FULLDATE);
 
               return currentMoment;
@@ -53,26 +46,60 @@ const DateService = () => {
     );
   }, []);
 
-  const clickDate = useCallback(
+  const toggleAllSelectedDates = useCallback(
+    () =>
+      allDates
+        .filter((item) => item.isSelected === true)
+        .map((item) => item.id),
+    [allDates]
+  );
+
+  const toggleAllDate = useCallback((date) => {
+    setAllDates((prev) =>
+      prev.map((item) =>
+        item.id === date.id
+          ? (() => {
+              const currentMoment = moment(date);
+              currentMoment.isSelected = !date.isSelected;
+              currentMoment.id = date.format(MOMENT.FULLDATE);
+
+              return currentMoment;
+            })()
+          : item
+      )
+    );
+  }, []);
+
+  const changeMonth = useCallback(
     (date) => {
       const currentMoment = date.format(MOMENT.YEARMONTH);
       const targetMoment = today.format(MOMENT.YEARMONTH);
 
       if (currentMoment !== targetMoment) {
-        changeMonth(currentMoment);
+        dispatch(setDate(moment(date)));
+        dispatch(setSelectedDates(date.id));
       }
-
-      if (selectedDate === date.id) return;
-
-      setSelectedDate(date.id);
-      toggleSelected(date);
     },
-    [changeMonth, selectedDate, today, toggleSelected]
+    [dispatch, today]
+  );
+
+  const clickDate = useCallback(
+    (date) => {
+      changeMonth(date);
+
+      if (selectedDates === date.id) return;
+      toggleDate(date);
+    },
+    [changeMonth, toggleDate, selectedDates]
   );
 
   const loadAllDates = useCallback(() => {
-    setAllDates(MakeAllDates(today, selectedDate));
+    setAllDates(MakeAllDates(today, selectedDates));
   }, [today]);
+
+  useEffect(() => {
+    dispatch(setSelectedDates(toggleAllSelectedDates()));
+  }, [allDates, dispatch, toggleAllSelectedDates]);
 
   useEffect(() => {
     loadAllDates();
@@ -81,13 +108,10 @@ const DateService = () => {
   return {
     today,
     allDates,
-    selectedDate,
-    setSelectedDate,
-    setAllDates,
     resetAllDates,
-    toggleSelected,
-    changeMonth,
     clickDate,
+    toggleAllDate,
+    toggleAllSelectedDates,
   };
 };
 

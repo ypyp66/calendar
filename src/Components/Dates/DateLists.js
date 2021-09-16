@@ -10,7 +10,7 @@ import MOMENT from "Constants/Moment";
 import DateService from "Utils/DateService";
 
 function DateLists() {
-  const { today, allDates, setAllDates, resetAllDates, clickDate } =
+  const { today, allDates, resetAllDates, clickDate, toggleAllDate } =
     DateService();
   const [dragStart, setDragStart] = useState(null);
   const [dragOver, setDragOver] = useState(null);
@@ -36,26 +36,14 @@ function DateLists() {
 
   const handleDragOver = useCallback(
     (date) => {
-      if (dragOver === date.id) return;
       //over이벤트 지속 방지
+      if (dragOver === date.id) return;
       else {
         setDragOver(date.id);
-        setAllDates((prev) =>
-          prev.map((item) =>
-            item.id === date.id
-              ? (() => {
-                  const now = moment(date);
-                  now.isSelected = !date.isSelected;
-                  now.id = date.format(MOMENT.FULLDATE);
-
-                  return now;
-                })()
-              : item
-          )
-        );
+        toggleAllDate(date);
       }
     },
-    [dragOver, setAllDates]
+    [dragOver, toggleAllDate]
   );
 
   const handleDragEnd = (date) => {
@@ -65,56 +53,48 @@ function DateLists() {
     for (let i = 0; i <= diff; i++) {
       const currentMoment = moment(date).clone().add(i, "days");
       const id = currentMoment.format(MOMENT.FULLDATE);
+      currentMoment.id = id;
 
-      setAllDates((prev) =>
-        prev.map((item) =>
-          item.id === id
-            ? (() => {
-                const now = moment(currentMoment);
-                now.isSelected = !currentMoment.isSelected;
-                now.id = currentMoment.format(MOMENT.FULLDATE);
-
-                return now;
-              })()
-            : item
-        )
-      );
+      toggleAllDate(currentMoment);
     }
   };
 
   if (allDates) {
     return (
-      <Container>
-        {allDates &&
-          allDates.map((date) => {
-            const id = date.format(MOMENT.FULLDATE);
-            date.id = id;
+      <>
+        <Container>
+          {allDates &&
+            allDates.map((date) => {
+              const id = date.format(MOMENT.FULLDATE);
+              date.id = id;
 
-            const isToday = date.isSame(
-              today.format(`${TODAY.YEAR}-${TODAY.MONTH}-${TODAY.DATE}`)
-            );
-            const isOtherMonth =
-              date.format(MOMENT.YEARMONTH) !== today.format(MOMENT.YEARMONTH);
+              const isToday = date.isSame(
+                today.format(`${TODAY.YEAR}-${TODAY.MONTH}-${TODAY.DATE}`)
+              );
+              const isOtherMonth =
+                date.format(MOMENT.YEARMONTH) !==
+                today.format(MOMENT.YEARMONTH);
 
-            const isHoliday = date.weekday();
+              const isHoliday = date.weekday();
 
-            return (
-              <DateItem
-                key={id}
-                isToday={isToday}
-                isOtherMonth={isOtherMonth}
-                isSelected={date.isSelected}
-                isHoliday={isHoliday === 0}
-                handleClick={() => handleClick(date)}
-                handleDragStart={() => handleDragStart(date)}
-                handleDragOver={() => handleDragOver(date)}
-                handleDragEnd={() => handleDragEnd(date)}
-              >
-                {date.format("D")}
-              </DateItem>
-            );
-          })}
-      </Container>
+              return (
+                <DateItem
+                  key={id}
+                  isToday={isToday}
+                  isOtherMonth={isOtherMonth}
+                  isSelected={date.isSelected}
+                  isHoliday={isHoliday === 0}
+                  handleClick={() => handleClick(date)}
+                  handleDragStart={() => handleDragStart(date)}
+                  handleDragOver={() => handleDragOver(date)}
+                  handleDragEnd={() => handleDragEnd(date)}
+                >
+                  {date.format("D")}
+                </DateItem>
+              );
+            })}
+        </Container>
+      </>
     );
   } else {
     return (

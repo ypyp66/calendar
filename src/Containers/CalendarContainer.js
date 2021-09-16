@@ -20,7 +20,7 @@ function CalendarContainer() {
 
 export default CalendarContainer;
 
-const Container = styled.div`
+const Container = styled.main`
   width: 430px;
   height: 460px;
 
