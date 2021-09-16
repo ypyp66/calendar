@@ -22,7 +22,6 @@ function DateLists() {
     [clickDate]
   );
   const handleReset = useCallback(() => {
-    console.log("reset");
     resetAllDates();
   }, [resetAllDates]);
 
@@ -61,37 +60,40 @@ function DateLists() {
 
   if (allDates) {
     return (
-      <Container>
-        {allDates &&
-          allDates.map((date) => {
-            const id = date.format(MOMENT.FULLDATE);
-            date.id = id;
+      <>
+        <Container>
+          {allDates &&
+            allDates.map((date) => {
+              const id = date.format(MOMENT.FULLDATE);
+              date.id = id;
 
-            const isToday = date.isSame(
-              today.format(`${TODAY.YEAR}-${TODAY.MONTH}-${TODAY.DATE}`)
-            );
-            const isOtherMonth =
-              date.format(MOMENT.YEARMONTH) !== today.format(MOMENT.YEARMONTH);
+              const isToday = date.isSame(
+                today.format(`${TODAY.YEAR}-${TODAY.MONTH}-${TODAY.DATE}`)
+              );
+              const isOtherMonth =
+                date.format(MOMENT.YEARMONTH) !==
+                today.format(MOMENT.YEARMONTH);
 
-            const isHoliday = date.weekday();
+              const isHoliday = date.weekday();
 
-            return (
-              <DateItem
-                key={id}
-                isToday={isToday}
-                isOtherMonth={isOtherMonth}
-                isSelected={date.isSelected}
-                isHoliday={isHoliday === 0}
-                handleClick={() => handleClick(date)}
-                handleDragStart={() => handleDragStart(date)}
-                handleDragOver={() => handleDragOver(date)}
-                handleDragEnd={() => handleDragEnd(date)}
-              >
-                {date.format("D")}
-              </DateItem>
-            );
-          })}
-      </Container>
+              return (
+                <DateItem
+                  key={id}
+                  isToday={isToday}
+                  isOtherMonth={isOtherMonth}
+                  isSelected={date.isSelected}
+                  isHoliday={isHoliday === 0}
+                  handleClick={() => handleClick(date)}
+                  handleDragStart={() => handleDragStart(date)}
+                  handleDragOver={() => handleDragOver(date)}
+                  handleDragEnd={() => handleDragEnd(date)}
+                >
+                  {date.format("D")}
+                </DateItem>
+              );
+            })}
+        </Container>
+      </>
     );
   } else {
     return (
