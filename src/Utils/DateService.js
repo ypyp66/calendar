@@ -31,7 +31,7 @@ const DateService = () => {
     );
   }, []);
 
-  const toggleSelected = useCallback((date) => {
+  const toggleDate = useCallback((date) => {
     setAllDates((prev) =>
       prev.map((item) =>
         item.id === date.id
@@ -53,6 +53,22 @@ const DateService = () => {
     );
   }, []);
 
+  const toggleAllDate = (date) => {
+    setAllDates((prev) =>
+      prev.map((item) =>
+        item.id === date.id
+          ? (() => {
+              const currentMoment = moment(date);
+              currentMoment.isSelected = !date.isSelected;
+              currentMoment.id = date.format(MOMENT.FULLDATE);
+
+              return currentMoment;
+            })()
+          : item
+      )
+    );
+  };
+
   const clickDate = useCallback(
     (date) => {
       const currentMoment = date.format(MOMENT.YEARMONTH);
@@ -62,12 +78,10 @@ const DateService = () => {
         changeMonth(currentMoment);
       }
 
-      if (selectedDate === date.id) return;
-
       setSelectedDate(date.id);
-      toggleSelected(date);
+      toggleDate(date);
     },
-    [changeMonth, selectedDate, today, toggleSelected]
+    [changeMonth, today, toggleDate]
   );
 
   const loadAllDates = useCallback(() => {
@@ -82,13 +96,9 @@ const DateService = () => {
   return {
     today,
     allDates,
-    selectedDate,
-    setSelectedDate,
-    setAllDates,
     resetAllDates,
-    toggleSelected,
-    changeMonth,
     clickDate,
+    toggleAllDate,
   };
 };
 

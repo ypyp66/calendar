@@ -10,7 +10,7 @@ import MOMENT from "Constants/Moment";
 import DateService from "Utils/DateService";
 
 function DateLists() {
-  const { today, allDates, setAllDates, resetAllDates, clickDate } =
+  const { today, allDates, resetAllDates, clickDate, toggleAllDate } =
     DateService();
   const [dragStart, setDragStart] = useState(null);
   const [dragOver, setDragOver] = useState(null);
@@ -36,51 +36,26 @@ function DateLists() {
 
   const handleDragOver = useCallback(
     (date) => {
-      if (dragOver === date.id) return;
       //over이벤트 지속 방지
+      if (dragOver === date.id) return;
       else {
         setDragOver(date.id);
-        setAllDates((prev) =>
-          prev.map((item) =>
-            item.id === date.id
-              ? (() => {
-                  const now = moment(date);
-                  now.isSelected = !date.isSelected;
-                  now.id = date.format(MOMENT.FULLDATE);
-
-                  return now;
-                })()
-              : item
-          )
-        );
+        toggleAllDate(date);
       }
     },
-    [dragOver, setAllDates]
+    [dragOver, toggleAllDate]
   );
 
   const handleDragEnd = (date) => {
     const diff = moment(dragOver).diff(moment(dragStart), "days");
 
-    console.log(date, moment());
-
     //end와 start의 차이만큼 반복해서 isSelected를 true로 바꿔줘야함.
     for (let i = 0; i <= diff; i++) {
       const currentMoment = moment(date).clone().add(i, "days");
       const id = currentMoment.format(MOMENT.FULLDATE);
+      currentMoment.id = id;
 
-      setAllDates((prev) =>
-        prev.map((item) =>
-          item.id === id
-            ? (() => {
-                const now = moment(currentMoment);
-                now.isSelected = !currentMoment.isSelected;
-                now.id = currentMoment.format(MOMENT.FULLDATE);
-
-                return now;
-              })()
-            : item
-        )
-      );
+      toggleAllDate(currentMoment);
     }
   };
 
@@ -105,7 +80,6 @@ function DateLists() {
                 key={id}
                 isToday={isToday}
                 isOtherMonth={isOtherMonth}
-                //isSelected={selectedDate.includes(date.format("YYYY-MM-DD"))}
                 isSelected={date.isSelected}
                 isHoliday={isHoliday === 0}
                 handleClick={() => handleClick(date)}
