@@ -3,7 +3,7 @@ import { SET_DATE, SET_SELECTED_DATES } from "Store/actions/types";
 
 const initialState = {
   date: moment(),
-  selectedDates: null,
+  selectedDates: [],
 };
 
 export default function date(state = initialState, action) {
