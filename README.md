@@ -19,6 +19,9 @@
 
 ### 추가로 구현한 기능
 
+### 컴포넌트 분리
+    - CalendarButton 및 CalendarItem 컴포넌트 분리
+
 #### Drag & Drop
 
     - drag start 시 기존 selected 날짜들 초기화
