@@ -1,31 +1,59 @@
-import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import React, { useCallback } from "react";
 import styled from "styled-components";
+import TodoService from "Utils/TodoService";
+import TodoDates from "./Todos/TodoDates";
+import TodoForm from "./Todos/TodoForm";
+import TodoList from "./Todos/TodoList";
 
 function TodoArea() {
-  const selectedDates = useSelector((state) => state.date.selectedDates);
+  const {
+    todoStates,
+    selectedDates,
+    todo,
+    changeTodo,
+    addTodo,
+    removeTodo,
+    toggleTodo,
+  } = TodoService();
 
-  useEffect(() => {
-    console.log(selectedDates, selectedDates?.length);
-  }, [selectedDates]);
+  const handleSubmit = useCallback(
+    (e) => {
+      addTodo(e, selectedDates);
+    },
+    [addTodo, selectedDates]
+  );
 
-  if (selectedDates === null || selectedDates.length <= 1) {
-    return <Container>선택일 : {selectedDates}</Container>;
-  } else {
-    return (
-      <Container>
-        선택일 :{selectedDates[0]} ~ {selectedDates[selectedDates.length - 1]}
-      </Container>
-    );
-  }
+  const handleChange = useCallback(
+    (e) => {
+      changeTodo(e);
+    },
+    [changeTodo]
+  );
+
+  return (
+    <Container>
+      <TodoDates selectedDates={selectedDates} />
+      <TodoForm
+        todo={todo}
+        handleChange={handleChange}
+        handleSubmit={handleSubmit}
+      />
+      <TodoList
+        todoStates={todoStates}
+        selectedDates={selectedDates}
+        removeTodo={removeTodo}
+        toggleTodo={toggleTodo}
+      />
+    </Container>
+  );
 }
 
-export default TodoArea;
+export default React.memo(TodoArea);
 
 const Container = styled.section`
   width: 430px;
-  height: 200px;
 
+  padding: 10px;
   margin-top: 10px;
   border: 1px solid black;
 `;
